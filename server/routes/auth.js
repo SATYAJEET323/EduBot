@@ -51,7 +51,7 @@ router.post('/register', registerValidation, asyncHandler(async (req, res) => {
     });
   }
 
-  const { firstName, lastName, email, password, preferences } = req.body;
+  const { firstName, lastName, email, password, preferences, faceDescriptor } = req.body;
 
   // Check if user already exists
   const existingUser = await User.findOne({ email });
@@ -68,7 +68,8 @@ router.post('/register', registerValidation, asyncHandler(async (req, res) => {
     lastName,
     email,
     password,
-    preferences: preferences || {}
+    preferences: preferences || {},
+    faceDescriptor: faceDescriptor || null
   });
 
   // Generate token

@@ -79,13 +79,9 @@ export const userAPI = {
   getProgress: () => 
     api.get('/user/progress'),
   
-  // Register face
-  registerFace: (formData) => 
-    api.post('/user/face-register', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }),
+  // Register face (JSON descriptor)
+  registerFace: (faceDescriptor) => 
+    api.post('/user/face-register', { faceDescriptor }),
   
   // Remove face registration
   removeFaceRegistration: () => 

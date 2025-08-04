@@ -5,6 +5,7 @@ import { useAuth } from '../hooks/useAuth'
 import { Eye, EyeOff, Camera, User, Mail, Lock, CheckCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
 import FaceRecognition from '../components/FaceRecognition'
+import { userAPI } from '../services/api' // <-- Correct import
 
 const Register = () => {
   const { register: registerUser } = useAuth()
@@ -37,12 +38,18 @@ const Register = () => {
         }
       }
 
-      if (faceDescriptor) {
-        userData.faceDescriptor = faceDescriptor
-      }
-
+      // Do NOT send faceDescriptor in the initial registration payload
       const result = await registerUser(userData)
       if (result.success) {
+        // If faceDescriptor is present, register it after user is created and token is set
+        if (faceDescriptor) {
+          try {
+            await userAPI.registerFace(faceDescriptor)
+            toast.success('Face registered successfully!')
+          } catch (err) {
+            toast.error('Face registration failed, but account was created.')
+          }
+        }
         toast.success('Registration successful! Welcome to EduBot!')
         navigate('/dashboard')
       } else {
