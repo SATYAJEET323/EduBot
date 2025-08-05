@@ -78,13 +78,12 @@ app.use('*', (req, res) => {
 });
 
 // MongoDB connection
+// IMPORTANT: Ensure your current IP is whitelisted in MongoDB Atlas Network Access.
+// For development, you can use 0.0.0.0/0, but this is NOT recommended for production.
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/edubot', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    const conn = await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/edubot');
+    console.log(`MonGO DB is Connect Succefully : ${PORT}`);
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1);

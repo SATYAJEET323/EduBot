@@ -46,6 +46,7 @@ const subjectSchema = new mongoose.Schema({
     unique: true,
     trim: true,
     maxlength: [50, 'Subject name cannot exceed 50 characters']
+    // Do NOT add index: true here, handled by subjectSchema.index below
   },
   description: {
     type: String,
